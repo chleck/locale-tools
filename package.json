@@ -1,0 +1,22 @@
+{
+  "author": "Dmitry Chleck <dmitrychleck@gmail.com>",
+  "license": "MIT",
+  "name": "locale-tools",
+  "version": "0.0.1",
+  "description": "Tools for locale-js",
+  "keywords": "locale-js locale i18n tools",
+  "main": "index.js",
+  "homepage": "https://bitbucket.org/chleck/locale-js/overview",
+  "repository": {
+    "type": "https",
+    "url": "https://bitbucket.org/chleck/locale-js.git"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": "*"
+  }
+}
