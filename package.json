@@ -6,15 +6,19 @@
   "description": "Tools for locale-js",
   "keywords": "locale-js locale i18n tools",
   "main": "index.js",
-  "homepage": "https://bitbucket.org/chleck/locale-js/overview",
+  "homepage": "https://github.com/chleck/locale-tools",
   "repository": {
     "type": "https",
-    "url": "https://bitbucket.org/chleck/locale-js.git"
+    "url": "https://github.com/chleck/locale-tools.git"
+  },
+  "bin": {
+    "i18n": "./bin/i18n"
   },
   "directories": {
     "test": "test"
   },
   "dependencies": {
+    "commander": "*"
   },
   "engines": {
     "node": "*"
