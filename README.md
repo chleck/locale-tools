@@ -56,7 +56,7 @@ $ i18n collect
 This command will create translation file for each target language.
 
 Result:
-- *<target>.tr* - translation file for <target> language.
+- *\<target>.tr* - translation file for <target> language.
 
 ### Building translation dictionary
 
@@ -70,4 +70,4 @@ This will create dictionary file for each target language and dictionary's confi
 
 Result:
 - *i18n.json* - dictionary's config.
-- *<target>.json* - translation dictionary for <target> language.
+- *&lt;target>.json* - translation dictionary for <target> language.
