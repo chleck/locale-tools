@@ -9,8 +9,6 @@ locale.to('ru');
 
 w(__());
 
-w(__('1'));
-
 var some_space = 123;
 
 w(__("Hello!# This is comment"));

@@ -68,7 +68,7 @@ function init() {
       cfg.rule = scheme[base][2] || '(n == 1 ? 0 : 1)';
       targets();
     } else {
-      console.log('No language rules for "' + base + '".');
+      console.log('No language rules for "%s".', base);
       program.prompt('Number of plural forms for "' + base + '": ', Number, function(n) {
         cfg.n = n;
         program.prompt('Plural rule for "' + base + '": ', function(rule) {
@@ -100,7 +100,7 @@ function init() {
           cfg.targets[target].rule = scheme[target][2] || '(n == 1 ? 0 : 1)';
           nextTarget();
         } else {
-          console.log('No language rules for "' + target + '".');
+          console.log('No language rules for "%s".', target);
           program.prompt('Number of plural forms for "' + target + '": ', Number, function(n) {
             cfg.targets[target].n = n;
             program.prompt('Plural rule for "' + target + '": ', function(rule) {
@@ -120,7 +120,7 @@ function init() {
     try {
       if(createDir) fs.mkdirSync(dir);
     } catch(e) {
-      console.log('Can not create directory "%s":\n%s', dir, e);
+      console.log('ERROR: Can not create directory "%s".\n\t%s', dir, e);
       process.exit(1);
     }
     // 
@@ -128,7 +128,7 @@ function init() {
       var cfgFile = path.join(dir, 'tr.json');
       fs.writeFileSync(cfgFile, JSON.stringify(cfg, null, '  '), 'utf8');
     } catch(e) {
-      console.log('Can not save project config "%s":\n%s', cfgFile, e);
+      console.log('ERROR: Can not save project config "%s".\n\t%s', cfgFile, e);
       process.exit(1);
     }
     process.exit();
@@ -163,7 +163,7 @@ function collect() {
       var dictFile = path.join(home, 'i18n', target + '.json');
       var old = JSON.parse(fs.readFileSync(dictFile, 'utf8'));
     } catch(e) {
-      console.log('WARNING: Can not load the old translation file "%s":\n%s', dictFile, e);
+      console.log('WARNING: Can not load the old translation file "%s".\n\t%s', dictFile, e);
       var old = {};
     }
     // Add records
@@ -198,7 +198,7 @@ function collect() {
     try {
       fs.writeFileSync(trFile, res.join('\n'), 'utf8');
     } catch(e) {
-      console.log('Can not save translation file "%s":\n%s', trFile, e);
+      console.log('ERROR: Can not save translation file "%s".\n\t%s', trFile, e);
       process.exit(1);
     }
   }
@@ -209,7 +209,7 @@ function collect() {
     try {
       var files = fs.readdirSync(dir);
     } catch(e) {
-      console.log('WARNING: Can not read directory "%s", skipped:\n%s', dir, e);
+      console.log('WARNING: Can not read directory "%s", skipped.\n\t%s', dir, e);
       return;
     }
   
@@ -218,7 +218,7 @@ function collect() {
       try {
         var s = fs.statSync(file);
       } catch(e) {
-        console.log('WARNING: Can not get file properties "%s", skipped:\n%s', file, e);
+        console.log('WARNING: Can not get file properties "%s", skipped.\n\t%s', file, e);
         continue;
       }
       // Dive into subdir
@@ -245,7 +245,7 @@ function collect() {
     try {
       var f = fs.readFileSync(file, 'utf8');
     } catch(e) {
-      console.log('WARNING: Can not read file "%s", skipped:\n%s', file, e);
+      console.log('WARNING: Can not read file "%s", skipped.\n\t%s', file, e);
       return;
     }
     
@@ -357,6 +357,10 @@ function collect() {
       var key;
       var base = [];
       for(var i in args) {
+        if(typeof args[i] != 'string') {
+          console.log('ERROR: One of the arguments of __() function at %s is not a string.', where);
+          process.exit(1);
+        }
         var tmp = splitPhrase(args[i]);
         // Create key based on the first arg
         if(!key) {
@@ -431,7 +435,7 @@ function dict() {
     var i18nFile = path.join(home, 'i18n', 'i18n.json');
     fs.writeFileSync(i18nFile, JSON.stringify(i18n, null, '  '), 'utf8');
   } catch(e) {
-    console.log('ERROR: Can not save dictionary config "%s":\n%s', i18nFile, e);
+    console.log('ERROR: Can not save dictionary config "%s".\n\t%s', i18nFile, e);
     process.exit(1);
   }
   
@@ -451,7 +455,7 @@ function dict() {
       var trFile = path.join(home, 'i18n', target + '.tr');
       var s = fs.readFileSync(trFile, 'utf8');
     } catch(e) {
-      console.log('ERROR: Can not load translation file "%s":\n%s', trFile, e);
+      console.log('ERROR: Can not load translation file "%s".\n\t%s', trFile, e);
       process.exit(1);
     }
     // Split .tr to lines
@@ -508,7 +512,7 @@ function dict() {
           tr = [];
           break;
         default:
-          err('Bad line');
+          err('Unknown line prefix');
           process.exit(1);
       }
     });
@@ -517,7 +521,7 @@ function dict() {
       var jsonFile = path.join(home, 'i18n', target + '.json')
       fs.writeFileSync(jsonFile, JSON.stringify(res, null, '  '), 'utf8');
     } catch(e) {
-      console.log('ERROR: Can not save dictionary file "%s":\n%s', jsonFile, e);
+      console.log('ERROR: Can not save dictionary file "%s".\n\t%s', jsonFile, e);
     }
 
     function err(msg) {
@@ -541,7 +545,7 @@ function loadConfig() {
   try {
     cfg = JSON.parse(fs.readFileSync(cfgFile, 'utf8'));
   } catch(e) {
-    console.log('Can not load config file "%s":\n%s', cfgFile, e);
+    console.log('Can not load config file "%s".\n\t%s', cfgFile, e);
     process.exit(1);
   }
 }
