@@ -6,19 +6,20 @@
  * ## locale.js: i18n for Node.js and browser
  * 
  * @author Dmitry A. Chleck <dmitrychleck@gmail.com>
- * @version 0.0.1
  * @url https://github.com/chleck/locale-tools
  */
 
 var program = require('commander')
   , fs      = require('fs')
-  , path    = require('path');
+  , path    = require('path')
+  , pkg     = require('../package.json');
 
 var cfg = {}
   , home = '.';
 
 program
-  .version('0.0.1');
+  .version(pkg.version)
+  .option('-f, --force', 'force initialization, use with "init" command');
 
 program
   .command('init')
@@ -41,17 +42,30 @@ program
 
 program.parse(process.argv);
 
-//console.log(program);
 if(!program.args.length) program.help();
 
 // # init command handler
 function init() {
   console.log('Initialization wizard\n');
+
+  // Check i18n directory
+  var dir = path.join(home, 'i18n');
+  var createDir = true;
+  if(fs.existsSync(dir)) {
+    if(program.force) {
+      var createDir = false;
+    } else {
+      console.log('ERROR: Directory "%s" already exists. Use --force option to force initialization.', dir);
+      process.exit(1);
+    }
+  }
+
+  // Read base language
   program.prompt('Base language: ', function(base) {
     cfg.base = base;
     if(typeof scheme[base] !== 'undefined') {
       cfg.n    = scheme[base][1];
-      cfg.rule = scheme[base][2];
+      cfg.rule = scheme[base][2] || '(n == 1 ? 0 : 1)';
       targets();
     } else {
       console.log('No language rules for "' + base + '".');
@@ -65,6 +79,7 @@ function init() {
     }
   });
 
+  // Read target languages
   function targets() {
     program.prompt('List of target languages (space-separated): ', function(targets) {
       cfg.targets = {};
@@ -82,7 +97,7 @@ function init() {
         cfg.targets[target] = {};
         if(typeof scheme[target] !== 'undefined') {
           cfg.targets[target].n    = scheme[target][1];
-          cfg.targets[target].rule = scheme[target][2];
+          cfg.targets[target].rule = scheme[target][2] || '(n == 1 ? 0 : 1)';
           nextTarget();
         } else {
           console.log('No language rules for "' + target + '".');
@@ -98,15 +113,17 @@ function init() {
     });
   }
 
+  // Save project config
   function saveConfig() {
     cfg.filter = [ '.js' ];
-    var dir = path.join(home, 'i18n');
+    // Try to create i18n directory
     try {
-      fs.mkdirSync(dir);
+      if(createDir) fs.mkdirSync(dir);
     } catch(e) {
       console.log('Can not create directory "%s":\n%s', dir, e);
       process.exit(1);
     }
+    // 
     try {
       var cfgFile = path.join(dir, 'tr.json');
       fs.writeFileSync(cfgFile, JSON.stringify(cfg, null, '  '), 'utf8');
@@ -529,6 +546,7 @@ function loadConfig() {
   }
 }
 
+// Empty rule means default rule "(n == 1 ? 0 : 1)" (same in English)
 var scheme = {
   "be": [ "Belarusian",         3, "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)" ],
   "bg": [ "Bulgarian",          2, "" ],
