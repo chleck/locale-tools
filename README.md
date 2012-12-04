@@ -42,7 +42,7 @@ $ cd <project_home>
 $ i18n init
 ```
 
-This command sequence will create i18n directory in the <project_home> and put project config into it.
+This command sequence will create i18n directory in the \<project_home> and put project config into it.
 
 Result:
 - *tr.json* - project config.
@@ -56,7 +56,7 @@ $ i18n collect
 This command will create translation file for each target language.
 
 Result:
-- *\<target>.tr* - translation file for <target> language.
+- *\<target>.tr* - translation file for \<target> language.
 
 ### Building translation dictionary
 
@@ -70,4 +70,4 @@ This will create dictionary file for each target language and dictionary's confi
 
 Result:
 - *i18n.json* - dictionary's config.
-- *&lt;target>.json* - translation dictionary for <target> language.
+- *\<target>.json* - translation dictionary for \<target> language.
