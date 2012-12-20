@@ -374,7 +374,7 @@ function collect() {
         tr[key] = { where: [ where ], plural: plural, base: [] };
         for(var i in base) {
           var tmp = { comment: [], phrase: base[i].phrase };
-          if(base[i].comment) tmp.comment.push(base[i].comment);
+          if(base[i].comment) tmp.comment.push('[1] ' + base[i].comment);
           tr[key].base.push(tmp);
         }
       } else {

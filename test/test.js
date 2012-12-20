@@ -13,6 +13,8 @@ var some_space = 123;
 
 w(__("Hello!# This is comment"));
 
+w(__("Hello!# This is another comment"));
+
 w(__("Hello!#testid This is comment with id"))
 
 w(__("Hello!#id_without_comment"))
