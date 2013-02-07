@@ -2,6 +2,10 @@
   "base": "en",
   "n": 2,
   "rule": "(n == 1 ? 0 : 1)",
+  "ignore": [
+    "i18n",
+    "node_modules"
+  ],
   "targets": {
     "ru": {
       "n": 3,

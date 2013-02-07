@@ -2,7 +2,7 @@
   "author": "Dmitry Chleck <dmitrychleck@gmail.com>",
   "license": "MIT",
   "name": "locale-tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tools for locale-js",
   "keywords": "locale-js locale i18n tools",
   "main": "index.js",

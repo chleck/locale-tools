@@ -66,6 +66,7 @@ function init() {
     if(typeof scheme[base] !== 'undefined') {
       cfg.n    = scheme[base][1];
       cfg.rule = scheme[base][2] || '(n == 1 ? 0 : 1)';
+      cfg.ignore = [ 'i18n', 'node_modules' ];
       targets();
     } else {
       console.log('No language rules for "%s".', base);
@@ -205,6 +206,12 @@ function collect() {
 
   // Directory traversal
   function grep(dir) {
+    function ignore(file) {
+      for(var i in cfg.ignore) {
+        if(file.match(cfg.ignore[i])) return true;
+      }
+      return false;
+    }
     // Get dir content
     try {
       var files = fs.readdirSync(dir);
@@ -215,6 +222,7 @@ function collect() {
   
     for(var i in files) {
       var file = path.join(dir, files[i]);
+      if(ignore(file)) continue;
       try {
         var s = fs.statSync(file);
       } catch(e) {
